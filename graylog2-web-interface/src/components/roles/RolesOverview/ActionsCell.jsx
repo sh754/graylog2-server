@@ -3,8 +3,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { LinkContainer } from 'react-router-bootstrap';
 
-import UserNotification from 'util/UserNotification';
-import { AuthzRolesActions } from 'stores/roles/AuthzRolesStore';
+import AuthzRolesDomain from 'domainActions/roles/AuthzRolesDomain';
 import Routes from 'routing/Routes';
 import Role from 'logic/roles/Role';
 import { Button } from 'components/graylog';
@@ -25,11 +24,7 @@ const ActionsCell = ({ roleId, roleName, readOnly }: Props) => {
   const _deleteRole = () => {
     // eslint-disable-next-line no-alert
     if (window.confirm(`Do you really want to delete role ${roleName}?`)) {
-      AuthzRolesActions.delete(roleId).then(() => {
-        UserNotification.success(`Role "${roleName}" was deleted successfully`);
-      }, () => {
-        UserNotification.error(`There was an error deleting the role "${roleName}"`);
-      });
+      AuthzRolesDomain.delete(roleId, roleName);
 
       // AuthzRolesActions.getMembers(roleName).then((membership) => {
       //   if (membership.users.length !== 0) {
